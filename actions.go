@@ -10,26 +10,31 @@ type actions struct {
 	next   *actions
 }
 
-func newActions() *actions {
-	return &actions{}
-}
+var (
+	head    *actions
+	current *actions
+)
 
-func (a *actions) Add(stack, input, action string) {
-	if a.stack == "" {
-		a.stack = stack
-		a.input = input
-		a.action = action
+func AddEventToList(stack, input, action string) {
+	if head == nil {
+		head = &actions{stack, input, action, nil}
+		current = head
 		return
 	}
-	a.next = newActions()
-	a.next.Add(stack, input, action)
+	current.next = &actions{stack, input, action, nil}
+	current = current.next
+}
+
+func PrintList() {
+	head.Print()
 }
 
 func (a *actions) Print() {
 	if a == nil {
 		return
 	}
+
 	log.Printf("|	%s	|	%s	|	%s	|\n", a.stack, a.input, a.action)
-	log.Println("--------------------------------------------------")
+	log.Println("---------------------------------------------")
 	a.next.Print()
 }
