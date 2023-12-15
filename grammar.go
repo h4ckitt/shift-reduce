@@ -41,7 +41,7 @@ func (g grammar) get(key string) string {
 	return ""
 }
 
-// Print prints the grammar
+// PrintList prints the grammar
 func (g grammar) print() {
 	for key, val := range g.substitutions {
 		fmt.Printf("%s -> %s\n", key, val)
