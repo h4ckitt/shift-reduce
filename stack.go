@@ -33,3 +33,29 @@ func (s *stack) Peek() string {
 func (s *stack) PeekEntireStack() string {
 	return strings.Join(*s, "")
 }
+
+func (s *stack) Reduce() int {
+	longest := ""
+	stackContents := s.PeekEntireStack()
+
+	for i := len(stackContents) - 1; i >= 0; i-- {
+		if v := g.get(stackContents[i:]); v != "" {
+			if len(stackContents[i:]) > len(longest) {
+				longest = stackContents[i:]
+			}
+		}
+	}
+
+	if longest == "" {
+		return 0
+	}
+
+	for i := 0; i < len(longest); i++ {
+		s.Pop()
+	}
+
+	s.Push(g.get(longest))
+	AddEventToList(s.PeekEntireStack(), input, "reduced")
+
+	return len(longest)
+}
